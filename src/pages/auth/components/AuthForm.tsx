@@ -1,11 +1,26 @@
-import { FC } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { Link } from "react-router-dom";
+import { Props, UserDataType } from "../types";
 
-interface FormProps {
-  type: string;
-}
+const AuthForm: React.FC<Props> = ({ type, onSubmit }) => {
+  const [userData, setUserData] = useState<UserDataType>({
+    email: "",
+    username: "",
+    password: "",
+  });
 
-const AuthForm: FC<FormProps> = ({ type }) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setUserData({
+      ...userData,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    onSubmit(userData);
+  };
   return (
     <section>
       <div className="grid grid-cols-1 lg:grid-cols-2">
@@ -38,7 +53,12 @@ const AuthForm: FC<FormProps> = ({ type }) => {
               </p>
             )}
 
-            <form action="#" method="POST" className="mt-8">
+            <form
+              action="#"
+              method="POST"
+              className="mt-8"
+              onSubmit={handleSubmit}
+            >
               <div className="space-y-5">
                 {type === "Register" && (
                   <div>
@@ -47,14 +67,16 @@ const AuthForm: FC<FormProps> = ({ type }) => {
                       className="text-base font-medium text-gray-900"
                     >
                       {" "}
-                      Full Name{" "}
+                      Username{" "}
                     </label>
                     <div className="mt-2">
                       <input
                         className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                         type="text"
-                        placeholder="Full Name"
+                        placeholder="username"
                         id="name"
+                        name="username"
+                        onChange={handleChange}
                       />
                     </div>
                   </div>
@@ -73,6 +95,8 @@ const AuthForm: FC<FormProps> = ({ type }) => {
                       type="email"
                       placeholder="Email"
                       id="email"
+                      name="email"
+                      onChange={handleChange}
                     />
                   </div>
                 </div>
@@ -92,12 +116,14 @@ const AuthForm: FC<FormProps> = ({ type }) => {
                       type="password"
                       placeholder="Password"
                       id="password"
+                      name="password"
+                      onChange={handleChange}
                     />
                   </div>
                 </div>
                 <div>
                   <button
-                    type="button"
+                    type="submit"
                     className="inline-flex w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80"
                   >
                     {type === "Register" ? "Create Account" : "Get started"}{" "}
@@ -123,7 +149,7 @@ const AuthForm: FC<FormProps> = ({ type }) => {
             {type === "Register" && (
               <div className="mt-3 space-y-3">
                 <button
-                  type="button"
+                  type="submit"
                   className="relative inline-flex w-full items-center justify-center rounded-md border border-gray-400 bg-white px-3.5 py-2.5 font-semibold text-gray-700 transition-all duration-200 hover:bg-gray-100 hover:text-black focus:bg-gray-100 focus:text-black focus:outline-none"
                 >
                   <span className="mr-2 inline-block">
@@ -139,7 +165,7 @@ const AuthForm: FC<FormProps> = ({ type }) => {
                   Sign up with Google
                 </button>
                 <button
-                  type="button"
+                  type="submit"
                   className="relative inline-flex w-full items-center justify-center rounded-md border border-gray-400 bg-white px-3.5 py-2.5 font-semibold text-gray-700 transition-all duration-200 hover:bg-gray-100 hover:text-black focus:bg-gray-100 focus:text-black focus:outline-none"
                 >
                   <span className="mr-2 inline-block">
