@@ -1,6 +1,23 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAppSelector } from "../../../store/hooks";
+import { useEffect, useState } from "react";
 
 const Navbar = () => {
+  const navigate = useNavigate();
+  const { user } = useAppSelector((state) => state.auth);
+  const [isLogin, setIslogin] = useState<boolean>(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setIslogin(!!token || !!user);
+  }, [user.token]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setIslogin(false);
+    navigate("/login");
+  };
+
   return (
     <>
       <div className="flex flex-wrap place-items-center shadow-md mb-4 sticky top-2 bg-slate-300 z-50 rounded-full">
@@ -33,7 +50,7 @@ const Navbar = () => {
               </div>
 
               <div className="hidden xl:flex space-x-5 items-center">
-                <a className="hover:text-gray-200" href="#">
+                <Link className="hover:text-gray-200" to="#">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-6 w-6"
@@ -48,7 +65,7 @@ const Navbar = () => {
                       d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
                     />
                   </svg>
-                </a>
+                </Link>
                 <a className="flex items-center hover:opacity-35" href="#">
                   <img
                     src="/shoppingCart.png"
@@ -61,30 +78,42 @@ const Navbar = () => {
                   </span>
                 </a>
 
-                <Link
-                  className="flex items-center gap-2 hover:opacity-35"
-                  to="/login"
-                >
-                  <img src="/user.png" alt="" className="h-6 w-6" />
-                  <span>Log in</span>
-                </Link>
+                {!isLogin ? (
+                  <>
+                    <Link
+                      className="flex items-center gap-2 hover:opacity-35"
+                      to="/login"
+                    >
+                      <img src="/user.png" alt="" className="h-6 w-6" />
+                      <span>Log in</span>
+                    </Link>
 
-                <Link
-                  className="flex items-center gap-2 hover:opacity-35"
-                  to="/register"
-                >
-                  <img src="/addUser.png" alt="" className="h-6 w-6" />
-                  <span>Sign up</span>
-                </Link>
+                    <Link
+                      className="flex items-center gap-2 hover:opacity-35"
+                      to="/register"
+                    >
+                      <img src="/addUser.png" alt="" className="h-6 w-6" />
+                      <span>Sign up</span>
+                    </Link>
+                  </>
+                ) : (
+                  <button
+                    className="border-none"
+                    type="button"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </button>
+                )}
               </div>
             </div>
 
-            <a className="xl:hidden flex mr-6 items-center" href="#">
+            <Link className="xl:hidden flex mr-6 items-center" to="#">
               <span className="flex absolute -mt-5 ml-4">
                 <span className="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-pink-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-3 w-3 bg-pink-500"></span>
               </span>
-            </a>
+            </Link>
             <Link to="/" className="navbar-burger self-center mr-12 xl:hidden">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
