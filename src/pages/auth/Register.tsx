@@ -4,7 +4,7 @@ import { register, resetStatus } from "../../store/authSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import { Status } from "../../globals/types";
+import { Status } from "../../globals/types/types";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -20,7 +20,7 @@ const Register = () => {
     if (status === Status.SUCCESS) {
       dispatch(resetStatus());
       navigate("/login");
-    } 
+    }
   }, [status, dispatch, navigate]);
   return (
     <>

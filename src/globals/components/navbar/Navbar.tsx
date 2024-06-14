@@ -9,7 +9,7 @@ const Navbar = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    setIslogin(!!token || !!user);
+    setIslogin(!!token || !!user.token);
   }, [user.token]);
 
   const handleLogout = () => {
@@ -93,7 +93,7 @@ const Navbar = () => {
                       to="/register"
                     >
                       <img src="/addUser.png" alt="" className="h-6 w-6" />
-                      <span>Sign up</span>
+                      <span>Register</span>
                     </Link>
                   </>
                 ) : (

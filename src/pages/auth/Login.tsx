@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import AuthForm from "./components/AuthForm";
 import { login, resetStatus } from "../../store/authSlice";
 import { useEffect } from "react";
-import { Status } from "../../globals/types";
+import { Status } from "../../globals/types/types";
 import { UserLoginType } from "./types";
 
 const Login = () => {
