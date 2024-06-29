@@ -1,15 +1,20 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useAppSelector } from "../../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { useEffect, useState } from "react";
+import { fetchCartItems } from "../../../store/cartSlice";
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth);
   const [isLogin, setIslogin] = useState<boolean>(false);
+  const { items } = useAppSelector((state) => state.carts);
+  console.log(items);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     setIslogin(!!token || !!user.token);
+    dispatch(fetchCartItems());
   }, [user.token]);
 
   const handleLogout = () => {
@@ -86,17 +91,19 @@ const Navbar = () => {
                         />
                       </svg>
                     </Link>
-                    <a className="flex items-center hover:opacity-35" href="#">
-                      <img
-                        src="/shoppingCart.png"
-                        alt="shopping cart"
-                        className="h-6 w-6"
-                      />
-                      <span className="flex absolute -mt-5 ml-4">
-                        <span className="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-pink-400 opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-3 w-3 bg-pink-500"></span>
-                      </span>
-                    </a>
+                    <Link to="/cart">
+                      <a
+                        className="flex items-center hover:opacity-35"
+                        href="#"
+                      >
+                        <img
+                          src="/shoppingCart.png"
+                          alt="shopping cart"
+                          className="h-6 w-6"
+                        />
+                        <sup>{items.length}</sup>
+                      </a>
+                    </Link>
                     <button
                       className="border-none"
                       type="button"
