@@ -5,7 +5,7 @@ import store from "./store/store";
 import Home from "./pages/home/Home";
 import Register from "./pages/auth/Register";
 import Login from "./pages/auth/Login";
-import SingleProduct from "./pages/product/singleProduct/SingleProduct";
+import SingleProduct from "./pages/singleProduct/SingleProduct";
 import Cart from "./pages/cart/Cart";
 import Checkout from "./pages/checkout/Checkout";
 

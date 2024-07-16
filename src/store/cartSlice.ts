@@ -1,4 +1,4 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { CartItem, CartState } from "../globals/types/cartTypes";
 import { Status } from "../globals/types/types";
 import { AppDispatch } from "./store";
@@ -12,6 +12,7 @@ const initialState: CartState = {
 interface DeleteAction {
   productId: string;
 }
+
 interface UpdateAction extends DeleteAction {
   quantity: number;
 }
@@ -58,7 +59,9 @@ export function addToCart(productId: string) {
       if (response.status === 200) {
         dispatch(setStatus(Status.SUCCESS));
         dispatch(setItems(response.data.data));
-      } else dispatch(setStatus(Status.ERROR));
+      } else {
+        dispatch(setStatus(Status.ERROR));
+      }
     } catch (error) {
       dispatch(setStatus(Status.ERROR));
     }
@@ -69,11 +72,13 @@ export function fetchCartItems() {
   return async function fetchCartItemsThunk(dispatch: AppDispatch) {
     dispatch(setStatus(Status.LOADING));
     try {
-      const response = await APIAuthenticated.post("/customer/cart");
+      const response = await APIAuthenticated.get("/customer/cart");
       if (response.status === 200) {
         dispatch(setStatus(Status.SUCCESS));
         dispatch(setItems(response.data.data));
-      } else dispatch(setStatus(Status.ERROR));
+      } else {
+        dispatch(setStatus(Status.ERROR));
+      }
     } catch (error) {
       dispatch(setStatus(Status.ERROR));
     }
@@ -85,12 +90,14 @@ export function deleteCartItem(productId: string) {
     dispatch(setStatus(Status.LOADING));
     try {
       const response = await APIAuthenticated.delete(
-        "/customer/cart" + productId
+        "/customer/cart/" + productId
       );
       if (response.status === 200) {
         dispatch(setStatus(Status.SUCCESS));
         dispatch(setDeleteItem({ productId }));
-      } else dispatch(setStatus(Status.ERROR));
+      } else {
+        dispatch(setStatus(Status.ERROR));
+      }
     } catch (error) {
       dispatch(setStatus(Status.ERROR));
     }
@@ -98,11 +105,11 @@ export function deleteCartItem(productId: string) {
 }
 
 export function updateCartItem(productId: string, quantity: number) {
-  return async function deleteCartItemThunk(dispatch: AppDispatch) {
+  return async function updateCartItemThunk(dispatch: AppDispatch) {
     dispatch(setStatus(Status.LOADING));
     try {
       const response = await APIAuthenticated.patch(
-        "/customer/cart" + productId,
+        "/customer/cart/" + productId,
         {
           quantity,
         }
@@ -110,7 +117,9 @@ export function updateCartItem(productId: string, quantity: number) {
       if (response.status === 200) {
         dispatch(setStatus(Status.SUCCESS));
         dispatch(setUpdateItem({ productId, quantity }));
-      } else dispatch(setStatus(Status.ERROR));
+      } else {
+        dispatch(setStatus(Status.ERROR));
+      }
     } catch (error) {
       dispatch(setStatus(Status.ERROR));
     }

@@ -6,6 +6,8 @@ interface CardProps {
 }
 
 const Card: React.FC<CardProps> = ({ data }) => {
+  console.log(data);
+
   return (
     <>
       <Link to={`/product/${data.id}`}>

@@ -1,31 +1,30 @@
 import { useParams } from "react-router-dom";
-import Layout from "../../../globals/components/Layout";
-import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import Navbar from "../../globals/components/navbar/Navbar";
 import { useEffect } from "react";
-import { fetchByProductId } from "../../../store/productSlice";
-import { addToCart } from "../../../store/cartSlice";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { fetchByProductId } from "../../store/productSlice";
+import { addToCart } from "../../store/cartSlice";
 
 const SingleProduct = () => {
   const { id } = useParams();
-  console.log(id);
-
   const dispatch = useAppDispatch();
   const { status, singleProduct } = useAppSelector((state) => state.products);
-
+  console.log(singleProduct);
   useEffect(() => {
     if (id) {
+      console.log("triggered", id);
       dispatch(fetchByProductId(id));
     }
   }, []);
-
   const handleAddToCart = () => {
     if (id && singleProduct) {
       dispatch(addToCart(id));
     }
   };
-
   return (
-    <Layout>
+    <>
+      <Navbar />
+
       <div className="bg-gray-100 dark:bg-gray-800 py-8">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row -mx-4">
@@ -57,16 +56,14 @@ const SingleProduct = () => {
               <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">
                 {singleProduct?.productName}
               </h2>
-              <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">
-                {singleProduct?.productDescription}
-              </p>
+
               <div className="flex mb-4">
                 <div className="mr-4">
                   <span className="font-bold text-gray-700 dark:text-gray-300">
                     Price:
                   </span>
                   <span className="text-gray-600 dark:text-gray-300">
-                    $ {singleProduct?.productPrice}
+                    ${singleProduct?.productPrice}
                   </span>
                 </div>
                 <div>
@@ -123,7 +120,7 @@ const SingleProduct = () => {
           </div>
         </div>
       </div>
-    </Layout>
+    </>
   );
 };
 

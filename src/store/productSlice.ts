@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Status } from "../globals/types/types";
 import { Product, ProductState } from "../globals/types/productTypes";
+import { Status } from "../globals/types/types";
 import { AppDispatch, RootState } from "./store";
 import { API } from "../http";
 
@@ -34,7 +34,8 @@ export function fetchProducts() {
     dispatch(setStatus(Status.LOADING));
     try {
       const response = await API.get("admin/product");
-      if (response.status === 201) {
+      console.log(response);
+      if (response.status === 200) {
         const { data } = response.data;
         dispatch(setStatus(Status.SUCCESS));
         dispatch(setProduct(data));
@@ -66,7 +67,7 @@ export function fetchByProductId(productId: string) {
         if (response.status === 200) {
           const { data } = response.data;
           dispatch(setStatus(Status.SUCCESS));
-          dispatch(setProduct(data));
+          dispatch(setSingleProduct(data));
         } else {
           dispatch(setStatus(Status.ERROR));
         }

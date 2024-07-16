@@ -1,13 +1,10 @@
 import { Link } from "react-router-dom";
-
+import Navbar from "../../globals/components/navbar/Navbar";
 import { deleteCartItem, updateCartItem } from "../../store/cartSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import Layout from "../../globals/components/Layout";
 
 const Cart = () => {
   const { items } = useAppSelector((state) => state.carts);
-  console.log(items);
-
   const dispatch = useAppDispatch();
   const handleDelete = (productId: string) => {
     dispatch(deleteCartItem(productId));
@@ -25,7 +22,8 @@ const Cart = () => {
     0
   );
   return (
-    <Layout>
+    <>
+      <Navbar />
       <div className="h-screen bg-gray-100 pt-20">
         <h1 className="mb-10 text-center text-2xl font-bold">Cart Items</h1>
         <div className="mx-auto max-w-5xl justify-center px-6 md:flex md:space-x-6 xl:px-0">
@@ -37,7 +35,6 @@ const Cart = () => {
                     <img
                       src={item?.Product?.productImageUrl}
                       className="h-[100px]"
-                      alt=""
                     />
                     <div className="sm:ml-4 sm:flex sm:w-full sm:justify-between">
                       <div className="mt-5 sm:mt-0">
@@ -62,7 +59,6 @@ const Cart = () => {
                             {" "}
                             -{" "}
                           </span>
-
                           <input
                             className="h-8 w-8 border bg-white text-center text-xs outline-none"
                             type="number"
@@ -140,7 +136,7 @@ const Cart = () => {
           </div>
         </div>
       </div>
-    </Layout>
+    </>
   );
 };
 

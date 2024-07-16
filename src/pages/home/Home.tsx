@@ -9,11 +9,11 @@ import { fetchProducts } from "../../store/productSlice";
 const Home = () => {
   const dispatch = useAppDispatch();
   const { status, product } = useAppSelector((state) => state.products);
-  console.log(product);
 
   useEffect(() => {
     dispatch(fetchProducts());
   }, []);
+  console.log(product);
   return (
     <Layout>
       <Categories />
