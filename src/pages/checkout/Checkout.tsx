@@ -13,6 +13,8 @@ import { useNavigate } from "react-router-dom";
 const Checkout = () => {
   const { items } = useAppSelector((state) => state.carts);
   const { khaltiUrl, status } = useAppSelector((state) => state.orders);
+  console.log(khaltiUrl);
+
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>(
