@@ -12,6 +12,7 @@ export enum OrderStatus {
   Ontheway = "ontheway",
   Cancel = "cancelled",
   Preparation = "preparation",
+  All = "all",
 }
 
 export interface ItemDetails {
